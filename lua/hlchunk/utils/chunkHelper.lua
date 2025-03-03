@@ -59,7 +59,6 @@ end
 
 ---@param pos HlChunk.Pos 0-index for row, 0-index for col, API-indexing
 local function get_chunk_range_by_treesitter(pos)
-  print(vim.inspect(not has_treesitter(pos.bufnr)))
   if not has_treesitter(pos.bufnr) then
     return chunkHelper.CHUNK_RANGE_RET.NO_TS, Scope(pos.bufnr, -1, -1)
   end
@@ -69,6 +68,7 @@ local function get_chunk_range_by_treesitter(pos)
     bufnr = pos.bufnr,
     pos = { pos.row, pos.col },
   })
+  print(vim.inspect(cursor_node))
   -- when cursor_node is comment content (source), we should find by tree
   if cursor_node and cursor_node:type() == "source" then
     cursor_node = treesitter.get_node({
